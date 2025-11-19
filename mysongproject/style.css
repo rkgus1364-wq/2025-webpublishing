@@ -1,0 +1,232 @@
+/* =======================
+   기본 설정 및 폰트 스타일
+======================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 전체 배경 및 기본 글자체 */
+body {
+  font-family: 'Nanum Gothic', sans-serif;
+  background: radial-gradient(circle at center, #2c1b0f 0%, #0b0b10 100%);
+  color: #FFF7EE;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+/* =======================
+   타이틀 + 하이라이트 효과
+======================= */
+.page-header {
+  text-align: center;
+  margin-bottom: 70px;
+  position: relative;
+  animation: fadeIn 1.2s ease-out;
+}
+
+/* ✅ 타이틀만 BBH Sans Hegarty */
+.page-title {
+  font-family: 'BBH Sans Hegarty', sans-serif;
+  font-size: 3rem;
+  color: #ffb57b;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+}
+
+/* 은은한 하이라이트 효과 */
+.page-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 8px;
+  background: radial-gradient(circle, rgba(255, 220, 150, 0.6), transparent 70%);
+  filter: blur(6px);
+  animation: glow 4s ease-in-out infinite alternate;
+}
+
+.intro {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #E6E1DA;
+  opacity: 0.85;
+}
+
+/* ------------------------------
+   CD 플레이어 (도넛형)
+------------------------------ */
+.cd-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3rem 0;
+  z-index: 1;
+}
+
+/* 도넛 형태의 회전 디스크 */
+.donut {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #ffe8c2, #ffd1a0, #ffb57b, #ffe8c2);
+  box-shadow: 
+    0 0 35px rgba(255, 200, 150, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.25);
+  animation: spin 18s linear infinite;
+}
+
+/* 도넛 구멍 (중앙 뚫린 부분) */
+.donut::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  background: var(--bg-deep);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+/* 회전 애니메이션 */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
+/* =======================
+   곡 정보 섹션
+======================= */
+.track {
+  width: 100%;
+  max-width: 700px;
+  background-color: rgba(10, 8, 6, 0.35);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(255, 140, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.track:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(255, 140, 0, 0.1);
+}
+
+.track-title {
+  font-size: 1.8rem;
+  color: #ffb57b;
+  font-family: 'BBH Sans Hegarty', sans-serif;
+}
+
+.artist {
+  font-size: 1rem;
+  color: #d8cbb9;
+}
+
+.track-description {
+  font-size: 1rem;
+  color: #f0e8df;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* 썸네일 */
+.thumbnail-link {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.thumbnail {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 15px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 10px 30px rgba(255, 181, 123, 0.1);
+}
+
+.thumbnail:hover {
+  transform: scale(1.03);
+  box-shadow: 0 20px 50px rgba(255, 181, 123, 0.25);
+}
+
+/* =======================
+   푸터
+======================= */
+.footer {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 0.95rem;
+  opacity: 0.9;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+.footer-text {
+  color: #ffb57b;
+  margin-bottom: 8px;
+}
+
+.contact {
+  color: #d8cbb9;
+  margin-bottom: 10px;
+}
+
+.contact a {
+  color: #ffb57b;
+  text-decoration: none;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+.credit {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+
+/* =======================
+   애니메이션
+======================= */
+@keyframes glow {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =======================
+   반응형
+======================= */
+@media (max-width: 600px) {
+  .page-title {
+    font-size: 2.4rem;
+  }
+
+  .track {
+    padding: 20px;
+  }
+
+  .disc-container {
+    width: 140px;
+    height: 140px;
+  }
+}
