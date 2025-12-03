@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 세부 설명</title>
+    
+    <!-- 1. CSS 파일 연결 (메인 페이지와 동일한 style.css 사용) -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- 2. Chart.js CDN (기여도 차트용) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- detail.html 파일의 <header> 부분 수정 -->
+    <header class="responsive-header">
+    <h1 id="detail-title">프로젝트명 로딩 중...</h1>
+    <p id="detail-subtitle">프로젝트 세부 설명</p>
+    </header>
+    <!-- 뒤로가기 버튼을 헤더 밖에 배치하여 스타일이 겹치지 않게 합니다. -->
+<a href="index.html" class="back-btn">← 목록으로</a> 
+
+<div class="detail-wrapper">
+    <!-- ... 본문 그리드 내용 유지 ... -->
+</div>
+<!-- ... -->
+
+    <div class="detail-wrapper">
+        <!-- 스케치 레이아웃을 구현하기 위한 그리드 구조 -->
+        <div class="layout-grid">
+            
+            <!-- 1. 작업물 사진 (좌측 메인 영역 - 2열 3행 차지) -->
+            <div class="box box-image">
+                <img id="detail-main-image" src="" alt="메인 작업물 사진">
+                <p>작업물 사진</p>
+            </div>
+
+            <!-- 2. 기획 및 제작 의도 (우측 상단) -->
+            <div class="box box-intention">
+                <h3>기획 및 제작 의도</h3>
+                <p id="detail-intention-text">데이터 로딩 중...</p>
+            </div>
+
+            <!-- 3. 사용 툴 (우측 중간) -->
+            <div class="box box-tools">
+                <h3>사용 툴</h3>
+                <div id="detail-tools-icons" class="tool-icons">
+                    <!-- JS로 아이콘 삽입 -->
+                </div>
+            </div>
+
+            <!-- 4. 기여도 (우측 하단 - 차트) -->
+            <div class="box box-contribution">
+                <h3>기여도</h3>
+                <div class="chart-wrapper">
+                    <canvas id="contributionChartDetail"></canvas>
+                    <div id="detail-contribution-percent" class="contribution-percent">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⭐️ 상세 페이지 전용 JavaScript (데이터 로딩 및 차트 실행) ⭐️ -->
+    <script>
+        
+        // 메인 페이지의 projectData 구조와 동일한 상세 데이터 객체
+        const detailProjectData = {
+            "project1": {
+                title: "웹 디자인 기초", subtitle: "사용자 경험 중심의 반응형 웹사이트 구축",
+                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=WEB+DESIGN+PROJECT",
+                difficulty: 1, contributionPercent: 60,
+                intention: "디자인 원칙과 웹 퍼블리싱 기술의 기초를 다지기 위한 실습 프로젝트. 웹 표준 및 접근성을 고려했습니다.",
+                tools: [
+                    { name: "HTML5", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=H" },
+                    { name: "CSS3", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=C" },
+                ],
+                contributionData: [
+                    { label: "디자인", value: 60, color: '#EF543E' },
+                    { label: "퍼블리싱", value: 40, color: '#2E364F' }
+                ]
+            },
+            "project2": {
+                title: "브랜드 전시 기획", subtitle: "서울장수 브랜드 팝업형 전시 기획 전담",
+                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=MOBILE+APP+UX",
+                difficulty: 2, contributionPercent: 80,
+                intention: "사용자 중심의 기획 프로세스를 이해하고, Figma를 활용하여 와이어프레임과 UI 디자인을 완성했습니다.",
+                tools: [
+                    { name: "Figma", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=F" },
+                    { name: "Miro", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=M" },
+                ],
+                contributionData: [
+                    { label: "기획", value: 80, color: '#EF543E' },
+                    { label: "디자인", value: 20, color: '#2E364F' }
+                ]
+            },
+            "project3": {
+                title: "브랜딩 디자인", subtitle: "가상의 카페 브랜드 'Lumine' BI 구축",
+                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=BRANDING+CI",
+                difficulty: 3, contributionPercent: 95,
+                intention: "일관성 있는 브랜드 아이덴티티 구축을 위한 프로세스를 이해하고, 로고, 컬러, 타이포그래피를 정의했습니다.",
+                tools: [
+                    { name: "Illustrator", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=Ai" },
+                    { name: "Photoshop", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=Ps" },
+                ],
+                contributionData: [
+                    { label: "브랜딩", value: 95, color: '#EF543E' },
+                    { label: "자료조사", value: 5, color: '#2E364F' }
+                ]
+            },
+             "project4": {
+                title: "데이터 시각화", subtitle: "D3.js를 활용한 인터랙티브 대시보드 제작",
+                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=DATA+VISUAL",
+                difficulty: 2, contributionPercent: 75,
+                intention: "복잡한 데이터를 사용자가 쉽게 이해할 수 있도록 시각화 기법을 적용하고, D3.js로 동적인 차트를 구현했습니다.",
+                tools: [
+                    { name: "D3.js", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=D3" },
+                    { name: "Tableau", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=T" },
+                ],
+                contributionData: [
+                    { label: "시각화", value: 75, color: '#EF543E' },
+                    { label: "데이터", value: 25, color: '#2E364F' }
+                ]
+            },
+             "project5": {
+                title: "포트폴리오 제작", subtitle: "전체 작업물 총정리 및 사이트 구축",
+                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=PORTFOLIO+SITE",
+                difficulty: 3, contributionPercent: 100,
+                intention: "개인의 역량과 작업 흐름을 체계적으로 정리하여 완성도 높은 포트폴리오 구축.",
+                tools: [
+                    { name: "VS Code", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=VS" },
+                    { name: "HTML", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=H" },
+                ],
+                contributionData: [
+                    { label: "기획/제작", value: 100, color: '#EF543E' },
+                    { label: "참여도", value: 0, color: '#2E364F' }
+                ]
+            }
+        };
+        
+        // Chart.js 렌더링 함수 (Detail 전용)
+        function renderDetailChart(contributionData, percent) {
+            const ctx = document.getElementById('contributionChartDetail').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [percent, 100 - percent],
+                        backgroundColor: [contributionData[0].color, '#eee'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } }
+                }
+            });
+        }
+        
+        // URL에서 프로젝트 ID를 가져오는 함수 (예: ?id=project1)
+        function getProjectIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id') || "project1"; // ID 없으면 기본값 'project1' 사용
+        }
+
+        // 페이지 로드 시 데이터 삽입
+        window.onload = function() {
+            const projectId = getProjectIdFromUrl(); 
+            const data = detailProjectData[projectId];
+
+            if (data) {
+                // 텍스트 정보 삽입
+                document.getElementById('detail-title').textContent = data.title;
+                document.getElementById('detail-subtitle').textContent = data.subtitle;
+                document.getElementById('detail-main-image').src = data.mainImageUrl;
+                document.getElementById('detail-intention-text').textContent = data.intention;
+                
+                // 기여도 차트 및 퍼센트
+                document.getElementById('detail-contribution-percent').textContent = data.contributionPercent + '%';
+                renderDetailChart(data.contributionData, data.contributionPercent);
+                
+                // 툴 아이콘 삽입
+                const toolsContainer = document.getElementById('detail-tools-icons');
+                toolsContainer.innerHTML = '';
+                data.tools.forEach(tool => {
+                    toolsContainer.innerHTML += `
+                        <div class="tool-icon">
+                            <img src="${tool.icon}" alt="${tool.name}">
+                            <span>${tool.name}</span>
+                        </div>
+                    `;
+                });
+
+            } else {
+                 document.getElementById('detail-title').textContent = "프로젝트를 찾을 수 없습니다.";
+                 document.getElementById('detail-subtitle').textContent = "유효하지 않은 프로젝트 ID입니다.";
+            }
+        };
+    </script>
+</body>
+</html>

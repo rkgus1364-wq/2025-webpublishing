@@ -1,0 +1,302 @@
+/* style.css 파일의 맨 위에 추가/수정 */
+
+/* 1. 굵은 폰트 파일 불러오기 (NanumSquareB.ttf) */
+@font-face {
+    font-family: 'homerabbit'; 
+    src: url('./fonts/homerabbit.ttf') format('truetype');
+    font-weight: 700; 
+    font-style: normal;
+}
+
+/* 2. 일반 폰트 파일 불러오기 (NanumSquareR.ttf) */
+@font-face {
+    font-family: 'free4'; 
+    src: url('./fonts/free4.ttf') format('truetype');
+    font-weight: normal; /* 400 */
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'free8';
+    src: url('./fonts/free8.ttf') format('truetype');
+    font-weight: normal; /* 400 */
+    font-style: normal;
+}
+
+
+
+/* 사용자 지정 색상 변수 */
+:root {
+    --color-background: #E5DDD7;
+    --color-header: #2E364F;
+    --color-point: #EF543E;
+    --color-text: #2E364F;
+    --color-card-bg: #FFFFFF;
+}
+
+/* 기본 스타일 */
+body {
+    font-family: 'free4', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    margin: 0;
+    padding: 0;
+    
+}
+
+/* style.css 파일의 .responsive-header 부분 수정 */
+
+/* 메인 페이지 헤더 */
+.responsive-header {
+    background-color: var(--color-header);
+    padding: 30px 20px;
+    text-align: center;
+    flex-shrink: 0;
+    position: sticky; 
+    top: 0; /* 뷰포트의 최상단(0)에 고정 */
+    z-index: 50; /* 다른 콘텐츠 위에 나타나도록 설정 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 고정되었을 때 입체감 추가 */
+}
+
+.responsive-header h1 {
+    font-family:'homerabbit',sans-serif ;
+    font-size: 3em;
+    margin: 0 0 10px 0;
+    color: var(--color-point); /* 포인트 색상 적용 */
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.responsive-header p {
+    font-family: 'free4',sans-serif ;
+    font-size: 1.2em;
+    color: #E5DDD7;
+    margin: 0;
+    font-weight: 300;
+}
+
+/* 슬라이더 영역 (화면 전체 채우기) */
+.portfolio-wrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* 슬라이더 컨트롤 컨테이너 */
+.slider-controls-container {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* -------------------------------------- */
+/* 가로 스크롤 레이아웃 (PC/모바일 공통) */
+/* -------------------------------------- */
+.card-container {
+    display: flex; /* 가로 배치 */
+    flex-wrap: nowrap; /* 줄바꿈 금지 */
+    gap: 40px;
+    overflow-x: auto; /* 가로 스크롤 허용 */
+    padding: 40px 50px; /* 상하 여백, 좌우 여백 */
+    width: 100%;
+    scroll-behavior: smooth;
+    
+    /* 스크롤바 숨기기 */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    /* 스크롤 스냅 (카드가 딱딱 멈추게) */
+    scroll-snap-type: x mandatory;
+    align-items: center;
+}
+
+.card-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* 카드 스타일 */
+.card {
+    font-family: 'homerabbit', sans-serif;
+    flex: 0 0 350px; /* 카드의 고정 너비 (PC 기준) */
+    height: 450px;
+    background: var(--color-card-bg);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    border: none;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-15px) scale(1.02); 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* 썸네일 영역 */
+.card-thumbnail {
+    height: 65%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+.card-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.card:hover .card-thumbnail img {
+    transform: scale(1.1);
+}
+
+/* 내용 영역 */
+.card-content {
+    height: 35%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    text-align: center;
+}
+
+.card-content h3 {
+    margin: 0 0 15px 0;
+    color: var(--color-point); /* 포인트 색상 적용 */
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+/* 난이도 표시 영역 */
+.difficulty {
+    display: flex;
+    gap: 5px;
+}
+
+.difficulty .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ddd;
+    transition: background-color 0.3s;
+}
+
+.difficulty .dot.filled {
+    background-color: var(--color-point);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .responsive-header h1 {
+        font-size: 2em;
+    }
+    
+    .card {
+        flex: 0 0 80vw; /* 모바일에서는 화면의 80% 너비 */
+        height: 400px;
+    }
+
+    .prev-btn, .next-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+    
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
+}
+/* -------------------------------------- */
+/* ⭐️ Detail Page 전용 레이아웃 스타일 ⭐️ */
+/* -------------------------------------- */
+
+.back-btn {
+    text-decoration: none;
+    color: var(--color-background);
+    font-weight: bold;
+    font-size: 1.1em;
+    position: absolute;
+    left: 30px;
+    top: 35px;
+    transition: color 0.2s;
+}
+.back-btn:hover { color: var(--color-point); }
+
+.detail-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* 스케치 레이아웃 그리드 (2열 구조) */
+.layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 2:1 비율로 나눔 */
+    grid-auto-rows: minmax(150px, auto);
+    gap: 20px;
+}
+
+/* 박스 공통 스타일 */
+.box {
+    background: white;
+    border-radius: 10px;
+    border: 2px solid var(--color-point); /* 스케치 디자인 테두리 */
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.box h3 {
+    color: var(--color-point);
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--color-point);
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+
+/* 1. 작업물 사진 (좌측 메인) */
+.box-image { grid-column: 1 / 2; grid-row: 1 / span 3; padding: 0; position: relative; } 
+.box-image img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+.box-image p { 
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    color: var(--color-text); background: rgba(255,255,255,0.7); 
+    padding: 10px 15px; border-radius: 5px; font-weight: bold;
+}
+
+/* 2. 기획 및 제작 의도 */
+.box-intention { grid-column: 2 / 3; grid-row: 1 / 2; } 
+
+/* 3. 사용 툴 */
+.box-tools { grid-column: 2 / 3; grid-row: 2 / 3; } 
+.tool-icons { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
+.tool-icon { text-align: center; font-size: 0.8em; color: #888; }
+.tool-icon img { width: 40px; height: 40px; border-radius: 5px; }
+
+/* 4. 기여도 */
+.box-contribution { grid-column: 2 / 3; grid-row: 3 / 4; align-items: center; justify-content: center; } 
+.chart-wrapper { width: 150px; height: 150px; position: relative; margin-top: 15px; }
+.contribution-percent { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 2em; font-weight: bold; color: var(--color-point);
+}
+
+
+/* 모바일 반응형 (Detail Page) */
+@media (max-width: 768px) {
+    .layout-grid { grid-template-columns: 1fr; gap: 15px; }
+    .box-image { grid-column: auto !important; grid-row: auto !important; height: 250px; }
+    .box { grid-column: auto !important; grid-row: auto !important; }
+}
+

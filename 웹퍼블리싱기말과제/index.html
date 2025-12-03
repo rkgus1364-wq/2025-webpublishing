@@ -1,0 +1,98 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Portfolio</title>
+    
+    <!-- 필수 연결 1: CSS 파일 -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- 필수 연결 2: Chart.js CDN (모달 내 기여도 차트용) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- ⭐️ [주의] TTF 폰트 사용 시, style.css에 @font-face 선언 후 이 연결 코드를 유지해야 합니다. ⭐️ -->
+</head>
+<body>
+
+<header class="responsive-header">
+    <h1>Project Portfolio</h1>
+    <p>염가현의 피땀눈물이 담긴 작업물 및 기획물 정리</p>
+</header>
+
+<div class="portfolio-wrapper">
+    <div class="slider-controls-container">
+        
+        <!-- 가로 스크롤 컨테이너 -->
+        <div class="card-container" id="scrollContainer">
+            <!-- 카드 1  -->
+           <div class="card" onclick="window.open('intro.html', '_blank')">
+                <div class="card-thumbnail">
+                    <img src="https://placehold.co/400x300/2E364F/E5DDD7?text=Project+2" alt="모바일 앱 기획 썸네일">
+                </div>
+                <div class="card-content">
+                    <h3>Profile & Capabilities</h3>
+                </div>
+            </div>
+
+            <!-- 카드 2 (ID: project2) -->
+            <div class="card" onclick="window.open('detail.html?id=project2', '_blank')">
+                <div class="card-thumbnail">
+                    <img src="https://placehold.co/400x300/2E364F/E5DDD7?text=Project+2" alt="브랜드 전시 기획 썸네일">
+                </div>
+                <div class="card-content">
+                    <h3>브랜드 전시 기획</h3>
+                    <div class="difficulty" data-difficulty="3">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 카드 3 (ID: project3) -->
+            <div class="card" onclick="window.open('detail.html?id=project3', '_blank')">
+                <div class="card-thumbnail">
+                    <img src="https://placehold.co/400x300/2E364F/E5DDD7?text=Project+3" alt="브랜딩 디자인 썸네일">
+                </div>
+                <div class="card-content">
+                    <h3>브랜딩 디자인</h3>
+                    <div class="difficulty" data-difficulty="3">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 카드 4 (ID: project4) -->
+            <div class="card" onclick="window.open('detail.html?id=project4', '_blank')">
+                <div class="card-thumbnail">
+                    <img src="https://placehold.co/400x300/2E364F/E5DDD7?text=Project+4" alt="데이터 시각화 썸네일">
+                </div>
+                <div class="card-content">
+                    <h3>데이터 시각화</h3>
+                    <div class="difficulty" data-difficulty="2">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- 카드 5 (ID: project5) -->
+             <div class="card" onclick="window.open('detail.html?id=project5', '_blank')">
+                <div class="card-thumbnail">
+                    <img src="https://placehold.co/400x300/2E364F/E5DDD7?text=Project+5" alt="포트폴리오 제작 썸네일">
+                </div>
+                <div class="card-content">
+                    <h3>포트폴리오 제작</h3>
+                    <div class="difficulty" data-difficulty="3">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 필수 연결: JavaScript 파일 -->
+<script src="script.js"></script>
+<!-- index.html 파일의 </body> 태그 직전에 추가 -->
+
+</body>
+</html>
