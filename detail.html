@@ -31,11 +31,13 @@
         <!-- 스케치 레이아웃을 구현하기 위한 그리드 구조 -->
         <div class="layout-grid">
             
-            <!-- 1. 작업물 사진 (좌측 메인 영역 - 2열 3행 차지) -->
-            <div class="box box-image">
-                <img id="detail-main-image" src="" alt="메인 작업물 사진">
-                <p>작업물 사진</p>
-            </div>
+          <!-- 1. 작업물 사진 / PDF (좌측 메인 영역) -->
+        <div class="box box-image">
+         <!-- 🖼 이미지용 (PDF 없을 때 사용) -->
+         <img id="detail-main-image" src="" alt="메인 작업물 이미지">
+        </div>
+
+
 
             <!-- 2. 기획 및 제작 의도 (우측 상단) -->
             <div class="box box-intention">
@@ -43,11 +45,10 @@
                 <p id="detail-intention-text">데이터 로딩 중...</p>
             </div>
 
-            <!-- 3. 사용 툴 (우측 중간) -->
+            <!-- 3. 사용 툴 / 또는 기획 내용 상세 (타입에 따라 달라짐) -->
             <div class="box box-tools">
-                <h3>사용 툴</h3>
-                <div id="detail-tools-icons" class="tool-icons">
-                    <!-- JS로 아이콘 삽입 -->
+                 <h3 id="detail-tools-title">사용 툴</h3>
+                <div id="detail-tools-content" class="tool-icons">
                 </div>
             </div>
 
@@ -64,13 +65,21 @@
 
     <!-- ⭐️ 상세 페이지 전용 JavaScript (데이터 로딩 및 차트 실행) ⭐️ -->
     <script>
-        
-        // 메인 페이지의 projectData 구조와 동일한 상세 데이터 객체
+                // ⭐ detail.html 전용 JS 코드 ⭐
+        // - 프로젝트 상세 데이터
+        // - 기여도 차트 렌더링
+        // - URL에서 프로젝트 ID 읽기
+        // - 타입(기획/제작)에 따라 레이아웃 & 내용 변경
+
+        // 1. 상세 페이지용 프로젝트 데이터
         const detailProjectData = {
             "project1": {
-                title: "웹 디자인 기초", subtitle: "사용자 경험 중심의 반응형 웹사이트 구축",
+                type: "production", // ⭐ 제작/디자인 타입
+                title: "웹 디자인 기초",
+                subtitle: "사용자 경험 중심의 반응형 웹사이트 구축",
                 mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=WEB+DESIGN+PROJECT",
-                difficulty: 1, contributionPercent: 60,
+                difficulty: 1,
+                contributionPercent: 60,
                 intention: "디자인 원칙과 웹 퍼블리싱 기술의 기초를 다지기 위한 실습 프로젝트. 웹 표준 및 접근성을 고려했습니다.",
                 tools: [
                     { name: "HTML5", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=H" },
@@ -82,52 +91,81 @@
                 ]
             },
             "project2": {
-                title: "브랜드 전시 기획", subtitle: "서울장수 브랜드 팝업형 전시 기획 전담",
-                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=MOBILE+APP+UX",
-                difficulty: 2, contributionPercent: 80,
-                intention: "사용자 중심의 기획 프로세스를 이해하고, Figma를 활용하여 와이어프레임과 UI 디자인을 완성했습니다.",
-                tools: [
-                    { name: "Figma", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=F" },
-                    { name: "Miro", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=M" },
-                ],
+                type: "planning",  // ⭐ 기획 타입 (여기만 레이아웃/내용 다르게)
+                title: "브랜드 전시 기획",
+                subtitle: "서울장수 브랜드 팝업형 전시 기획 전담",
+                mainImageUrl: "./photo/브랜드전시.png",  // PDF 쓰니까 비워도 OK
+                difficulty: 3,
+                contributionPercent: 100,
+                intention: "2030세대와 서울장수 브랜드의 커뮤니케이션 제안의 일부로 대학 내 서울장수 브랜드 홍보를 위한 전시 기획",
+                
+                // ⭐ 기획 상세 내용: 네가 원하는 텍스트로 마음껏 수정 가능
+                planningDetail: `
+        - 전시 타깃: 한양대학교에리카 재학생
+        - 목표: 브랜드 인지도 제고 및 친근한 이미지 형성
+        - 핵심 컨셉: '대학생활 중 가장 '생생'한 순간'
+
+        [전시 구성]
+        · 브랜드 히스토리 존
+        · 굿즈존
+        · 인터랙티브존
+        · 굿즈존
+        · 포토존 및 SNS 인증 이벤트 (방명록)
+
+        [담당 역할]
+        · 전체 전시 기획 및 동선 설계
+        · 공간 구성 및 콘텐츠 구조화
+        · 행사 운영 플로우 기획
+                `.trim(),
+
+                // 기획 프로젝트에서는 tools는 사용하지 않음 (비워둬도 됨)
+                tools: [],
                 contributionData: [
                     { label: "기획", value: 80, color: '#EF543E' },
                     { label: "디자인", value: 20, color: '#2E364F' }
                 ]
             },
             "project3": {
-                title: "브랜딩 디자인", subtitle: "가상의 카페 브랜드 'Lumine' BI 구축",
-                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=BRANDING+CI",
-                difficulty: 3, contributionPercent: 95,
-                intention: "일관성 있는 브랜드 아이덴티티 구축을 위한 프로세스를 이해하고, 로고, 컬러, 타이포그래피를 정의했습니다.",
+                type: "production",
+                title: "일일호프 홍보물 제작",
+                subtitle: "서울장수XCOMMAH 일일호프 홍보물 제작",
+                mainImageUrl: "./photo/일일호프.png",
+                difficulty: 2,
+                contributionPercent: 100,
+                intention: "서울장수의 대학생과 커뮤니케이션을 돕기 위해 진행된 일일호프의 홍보물 전반을 제작",
                 tools: [
-                    { name: "Illustrator", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=Ai" },
-                    { name: "Photoshop", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=Ps" },
+                    { name: "Illustrator", icon: "./photo/일러.svg" },
+                    { name: "Photoshop", icon: "./photo/포토샵.png" },
                 ],
                 contributionData: [
-                    { label: "브랜딩", value: 95, color: '#EF543E' },
-                    { label: "자료조사", value: 5, color: '#2E364F' }
+                    { label: "홍보물제작", value: 80, color: '#EF543E' },
+                    { label: "레퍼런스조사", value:20, color: '#2E364F' }
                 ]
             },
-             "project4": {
-                title: "데이터 시각화", subtitle: "D3.js를 활용한 인터랙티브 대시보드 제작",
-                mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=DATA+VISUAL",
-                difficulty: 2, contributionPercent: 75,
-                intention: "복잡한 데이터를 사용자가 쉽게 이해할 수 있도록 시각화 기법을 적용하고, D3.js로 동적인 차트를 구현했습니다.",
+            "project4": {
+                type: "production",
+                title: "안주맛집지도",
+                subtitle: "학교 앞 상권과 콜라보 맛집지도 제작",
+                mainImageUrl: "./photo/안주맛집지도",
+                difficulty: 1,
+                contributionPercent: 100,
+                intention: "서울장수 막걸리를 판매 중인 학교 앞 상권과 콜라보한 안주맛집지도 홍보물 제작",
                 tools: [
-                    { name: "D3.js", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=D3" },
-                    { name: "Tableau", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=T" },
+                    { name: "Illustrator", icon: "./photo/일러.svg" },
                 ],
                 contributionData: [
-                    { label: "시각화", value: 75, color: '#EF543E' },
-                    { label: "데이터", value: 25, color: '#2E364F' }
+                    { label: "홍보물제작", value: 75, color: '#EF543E' },
+                    { label: "레퍼런스조사", value: 25, color: '#2E364F' }
                 ]
             },
-             "project5": {
-                title: "포트폴리오 제작", subtitle: "전체 작업물 총정리 및 사이트 구축",
+            "project5": {
+                type: "production",
+                title: "포트폴리오 제작",
+                subtitle: "전체 작업물 총정리 및 사이트 구축",
                 mainImageUrl: "https://placehold.co/700x500/E5DDD7/2E364F?text=PORTFOLIO+SITE",
-                difficulty: 3, contributionPercent: 100,
-                intention: "개인의 역량과 작업 흐름을 체계적으로 정리하여 완성도 높은 포트폴리오 구축.",
+                difficulty: 3,
+                contributionPercent: 100,
+                intention: "2025년 기획 및 작업물 정리를 한눈에 볼 수 있는 웹사이트 구축",
                 tools: [
                     { name: "VS Code", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=VS" },
                     { name: "HTML", icon: "https://placehold.co/40x40/2E364F/E5DDD7?text=H" },
@@ -138,8 +176,10 @@
                 ]
             }
         };
-        
-        // Chart.js 렌더링 함수 (Detail 전용)
+
+
+        // 2. Chart.js 렌더링 함수 (Detail 전용)
+        //    - 도넛 차트 중앙에 퍼센트 표시용
         function renderDetailChart(contributionData, percent) {
             const ctx = document.getElementById('contributionChartDetail').getContext('2d');
             
@@ -156,24 +196,77 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } }
+                    plugins: { 
+                        legend: { display: false }, 
+                        tooltip: { enabled: false } 
+                    }
                 }
             });
         }
-        
-        // URL에서 프로젝트 ID를 가져오는 함수 (예: ?id=project1)
+
+
+        // 3. URL에서 프로젝트 ID를 가져오는 함수 (예: ?id=project2)
         function getProjectIdFromUrl() {
             const params = new URLSearchParams(window.location.search);
-            return params.get('id') || "project1"; // ID 없으면 기본값 'project1' 사용
+            return params.get('id') || "project1"; // id 없으면 기본 project1
         }
 
-        // 페이지 로드 시 데이터 삽입
+
+        // 4. 타입에 따라 레이아웃 + '사용 툴' 박스 내용 변경
+        function applyLayoutAndToolsByType(data) {
+            const layoutGrid      = document.querySelector('.layout-grid');
+            const toolsTitleEl    = document.getElementById('detail-tools-title');   // h3 제목
+            const toolsContentEl  = document.getElementById('detail-tools-content'); // 내용 영역
+
+            if (!layoutGrid || !toolsTitleEl || !toolsContentEl) return;
+
+            // 먼저 레이아웃 관련 클래스 초기화
+            layoutGrid.classList.remove('layout-planning', 'layout-production');
+
+            if (data.type === 'planning') {
+                // 🔹 기획(Planning) 타입 --------------------------------
+                layoutGrid.classList.add('layout-planning');
+
+                // 제목: '사용 툴' → '기획 내용 상세'
+                toolsTitleEl.textContent = '기획 내용 상세';
+
+                // 내용: 아이콘 대신 텍스트로 채우기
+                toolsContentEl.innerHTML = '';
+
+                // planningDetail 없으면 intention으로 대체
+                const detailText = data.planningDetail || data.intention;
+
+                // 줄바꿈(\n)을 실제 줄바꿈으로 보이게 처리
+                toolsContentEl.innerHTML = `<p>${detailText.replace(/\n/g, '<br>')}</p>`;
+
+            } else {
+                // 🔹 제작/디자인(Production) 타입 ------------------------
+                layoutGrid.classList.add('layout-production');
+
+                // 제목: '사용 툴'
+                toolsTitleEl.textContent = '사용 툴';
+
+                // 내용: 툴 아이콘 목록으로 채우기
+                toolsContentEl.innerHTML = '';
+                (data.tools || []).forEach(tool => {
+                    toolsContentEl.innerHTML += `
+                        <div class="tool-icon">
+                            <img src="${tool.icon}" alt="${tool.name}">
+                            <span>${tool.name}</span>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+
+        // 5. 페이지 로드 시 데이터 삽입
         window.onload = function() {
             const projectId = getProjectIdFromUrl(); 
             const data = detailProjectData[projectId];
 
             if (data) {
-                // 텍스트 정보 삽입
+                // 기본 텍스트 정보 세팅
                 document.getElementById('detail-title').textContent = data.title;
                 document.getElementById('detail-subtitle').textContent = data.subtitle;
                 document.getElementById('detail-main-image').src = data.mainImageUrl;
@@ -183,23 +276,16 @@
                 document.getElementById('detail-contribution-percent').textContent = data.contributionPercent + '%';
                 renderDetailChart(data.contributionData, data.contributionPercent);
                 
-                // 툴 아이콘 삽입
-                const toolsContainer = document.getElementById('detail-tools-icons');
-                toolsContainer.innerHTML = '';
-                data.tools.forEach(tool => {
-                    toolsContainer.innerHTML += `
-                        <div class="tool-icon">
-                            <img src="${tool.icon}" alt="${tool.name}">
-                            <span>${tool.name}</span>
-                        </div>
-                    `;
-                });
+                // ⭐ 타입에 따라 레이아웃 + 사용툴/기획상세 박스 내용 처리
+                applyLayoutAndToolsByType(data);
 
             } else {
-                 document.getElementById('detail-title').textContent = "프로젝트를 찾을 수 없습니다.";
-                 document.getElementById('detail-subtitle').textContent = "유효하지 않은 프로젝트 ID입니다.";
+                // 유효하지 않은 프로젝트 ID일 때
+                document.getElementById('detail-title').textContent = "프로젝트를 찾을 수 없습니다.";
+                document.getElementById('detail-subtitle').textContent = "유효하지 않은 프로젝트 ID입니다.";
             }
         };
+
     </script>
 </body>
 </html>
